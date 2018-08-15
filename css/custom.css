@@ -66,8 +66,10 @@ section{padding:75px 0 100px;}
 .banner-sec .jumbotron p{font-size:19px;}
 .banner-sec h1{font-weight:700; text-transform:uppercase; margin-bottom:0}
 .banner-sec h2{font-weight:300; text-transform:uppercase; margin-bottom:40px; margin-top:10px; font-size:22px; }
-.banner-sec .input-group {background: #20b2aa; margin-top: 20px; padding: 0 111px;}
-.banner-sec .form-control {border-radius: 25px; height: 43px;}
+/* .banner-sec .input-group {background: #20b2aa; margin-top: 20px; padding: 0 111px;} Changed by Johan for search bar */
+/* .banner-sec .input-group {margin-top: 20px; padding: 0 111px;} */
+/* .banner-sec .form-control {border-radius: 25px; height: 43px;} Changed by Johan for search bar  */
+/* .banner-sec .form-control {height: 43px;} */
 .banner-sec .btn-search {background: #20b2aa none repeat scroll 0 0; border-radius: 25px; color: #fff; font-size: 19px; height: 43px; padding: 0 35px; text-shadow: 1px 1px rgba(0, 0, 0, 0.5);}
 
 .banner-sec .autocomplete{
@@ -222,9 +224,17 @@ h2 {}
 @media (max-width: 460px){
 	.banner-sec .jumbotron{padding:30px 0;}
 	.banner-sec {height: 50vh;}
-	.banner-sec .input-group{display:none;}
+	/* .banner-sec .input-group{display:none;} */
 	p, .feature-section h3{text-align:center;}
 	.feature-section a{float:left; width:100%; text-align:center; margin-top:0;}
 	.f-small-block .small-inner{padding:0 20px}
 	
+}
+
+/*CSS added by Johan*/
+/*Main page*/
+/*Search button*/
+.search-button{
+	border-bottom-left-radius : 0px;	
+	border-top-left-radius : 0px;	
 }
