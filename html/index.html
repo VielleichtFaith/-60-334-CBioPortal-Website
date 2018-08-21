@@ -20,7 +20,10 @@
     <link rel="stylesheet" href="../css/contact-input-style.css">
     <link rel="stylesheet" href="../css/hover-effect.css">
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
-
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<!-- <script src="../js/Chart.min.js"></script>  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	
   </head>
 <!-- NAVBAR
 ================================================== -->
@@ -60,32 +63,9 @@
 <div class="jumbotron">
 <h1>Cancer Studies</h1>
 <h2>Sourced from CBioPortal</h2>
-
-<!-- <form autocomplete="off" action="query.php" method="POST"> -->
-    <!-- <div class="autocomplete">	 -->
-           <!-- <input id="myInput" name="myInput" type="text"  -->
-				  <!-- placeholder="Type the name of the cancer study or type of cancer" class="form-control"> -->
-           <!-- <input type="submit" class="btn btn-search">  -->
-    <!-- </div> -->
-<!-- <!-- </form> --> 
-
-<!-- <form autocomplete="off" action="query.php" method="POST" class="card card-sm"> -->
-    <!-- <div class="autocomplete"> -->
-	<!-- <div class="card-body row no-gutters align-items-center"> -->
-		   <!-- <div class="col"> 	 -->
-           <!-- <input id="myInput" name="myInput" type="text"  -->
-				  <!-- placeholder="Type the name of the cancer study or type of cancer" class="form-control form-control-lg"> -->
-		   <!-- </div> -->
-           <!-- <!-- <input type="submit" class="btn btn-search">  -->
-		   <!-- <div class="col-auto"> -->
-			<!-- <button class="btn btn-lg btn-success" type="submit">Search</button> -->
-		   <!-- </div> -->
-    <!-- </div> -->
-<!-- </form> -->
-
-	<form role="search" action="query.php" method="POST">
+	<form autocomplete="off" role="search" action="query.php" method="POST">
 			<div class="input-group input-group-lg" style="display: flex"> 
-				<input id="myInput" type="text" class="form-control"  placeholder="Search">
+				<input id="myInput" name="myInput" type="text" class="form-control"  placeholder="Search">
 				<span class="input-group-append">
 					<button class="btn btn-success btn-lg search-button" type="submit">
 						<i class="fa fa-search"></i>
@@ -102,15 +82,12 @@
 <div class="container">
 <div class="col-md-7 col-sm-12 main-text"><h2>Analytics</h2></div>
 
-
-
-
-
-
-
-
-
-
+	<script>
+		$(function(){
+			$("#chart").load("main_chart.html"); 
+		});
+	</script>
+	<div id="chart"></div>
 
 </div>
 </section>

@@ -63,7 +63,7 @@ $(document).ready(function() {
 #########
 #QUERY DB
 #########
- if (isset($_POST["myInput"])){
+ if(isset($_POST["myInput"])){
   $userinput = $_POST["myInput"]; //get study name 
  }
  else{

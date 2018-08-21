@@ -1,0 +1,142 @@
+<html>
+<head>
+ <!-- <link href="../css/bootstrap.min.css" rel="stylesheet"> -->
+ <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>	 -->
+ <!-- <script src="../js/jquery-3.3.1.min.js"></script>   -->
+ <!-- <!-- <script src="../js/Chart.min.js"></script>   -->
+ <!-- <script src="../js/bootstrap.min.js"></script> -->
+ 
+  <script>
+ 
+	$(document).ready(function(){
+	
+		$.ajax({
+		   type:"post",
+		   url:"analytics.php",
+		   data : {"cmd" : "GetTypes"},
+		   success: function(data){
+				var studies = JSON.parse(data);
+				
+				var type = [];
+				var count = [];
+				for(var i=0; i < studies.length; i++){
+					type.push(studies[i].Type);
+					count.push(studies[i].Count);
+				}
+				
+				var canvas = document.getElementById('types');
+				var ctx = canvas.getContext('2d');
+				
+				var chart = new Chart(ctx, {
+					// The type of chart we want to create
+					type: 'pie',
+
+					// The data for our dataset
+					data: {
+						labels: type,
+						datasets: [{
+							backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#decf3f","#f15854",
+											  "#5da5da","#faa43a","#60bd68"],
+							//borderColor: '#4d4d4d',
+							data: count,
+						}]
+					},
+
+					// Configuration options go here
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						segmentShowStroke: false,
+						legend : {
+							position : "right"
+						},
+						elements:{
+							arc : {
+								borderWidth : 0
+							}
+						},
+						title: {
+							display: true,
+							text: 'Data on major Cancer Types'
+						}
+					}
+				});
+				
+		   }
+		});
+		
+	
+		$.ajax({
+		   type:"post",
+		   url:"analytics.php",
+		   data : {"cmd" : "GetTopStudies"},
+		   success: function(data){
+				var studies = JSON.parse(data);
+				
+				var names = [];
+				var num_rows = [];
+				for(var i=0; i < studies.length; i++){
+					names.push(studies[i].Name);
+					num_rows.push(studies[i].Num_Rows);
+				}
+				
+				var canvas = document.getElementById('studies');
+				var ctx = canvas.getContext('2d');
+				
+				var chart = new Chart(ctx, {
+					// The type of chart we want to create
+					type: 'horizontalBar',
+
+					// The data for our dataset
+					data: {
+						labels: names,
+						datasets: [{
+							backgroundColor: "#4fc3f7",
+							//borderColor: '#4d4d4d',
+							data: num_rows,
+						}]
+					},
+
+					// Configuration options go here
+					options: {
+						title: {
+							display: true,
+							text: 'Studies with the most cases'
+						},
+						scales :{
+							yAxes : [{
+								ticks: {
+									display: false 
+								}
+							}]
+						},
+						legend : {
+							display : false
+						}
+					}
+				});
+				
+		   }
+		});		
+	})
+	
+
+	
+ </script>
+ 
+</head>
+<body>
+ <!-- <div width="50%" height="50%"> -->
+ <div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<canvas id="types"></canvas>
+		</div>
+		<div class="col-sm-6">
+			<canvas id="studies"></canvas>
+		</div>	
+	</div>		
+ <div> 
+ 
+</body>
+</html>

@@ -1,0 +1,56 @@
+1. Patient -> Mutations
+2. Patient -> CNA
+
+Analytics:
+ Types of Cancer
+	Breast
+	Lung
+	Prostate
+	CNS/Brain
+	Kidney
+	Bowel
+	Lymphoid
+	Stomach
+	Bladder
+ Types of Cancer Studies
+ 
+ 
+
+SELECT (CASE WHEN name LIKE '%prostate%' THEN 'Prostate'
+			 WHEN name LIKE '%breast%' THEN 'Breast'
+			 WHEN name LIKE '%lung%' THEN 'Lung'
+			 WHEN name LIKE '%kidney%' THEN 'Kidney'
+			 WHEN name LIKE '%skin%' THEN 'Skin'
+			 WHEN name LIKE '%lymph%' THEN 'Lymphoid'
+			 WHEN name LIKE '%head%' THEN 'Head and Neck'
+			 WHEN name LIKE '%stomach%' or name LIKE '%esopha%' THEN 'Esophagus/Stomach'
+			 WHEN name like '%pancre%' or name like '%insu%' THEN 'Pancreas'
+			 WHEN name like '%bladder%' or name like '%urothe%' THEN 'Bladder'
+			 WHEN name like '%brain%' or name like 'glio%' or name like '%medull%' or name like '%ngs%' THEN 'Brain' END) as type,
+       COUNT(*) as count      
+FROM study
+GROUP BY (CASE WHEN name LIKE '%prostate%' THEN 'Prostate'
+			 WHEN name LIKE '%breast%' THEN 'Breast'
+			 WHEN name LIKE '%lung%' THEN 'Lung'
+			 WHEN name LIKE '%kidney%' THEN 'Kidney'
+			 WHEN name LIKE '%skin%' THEN 'Skin'
+			 WHEN name LIKE '%lymph%' THEN 'Lymphoid'
+			 WHEN name LIKE '%head%' THEN 'Head and Neck'
+			 WHEN name LIKE '%stomach%' or name LIKE '%esopha%' THEN 'Esophagus/Stomach'
+			 WHEN name like '%pancre%' or name like '%insu%' THEN 'Pancreas'
+			 WHEN name like '%bladder%' or name like '%urothe%' THEN 'Bladder'
+			 WHEN name like '%brain%' or name like 'glio%' or name like '%medull%' or name like '%ngs%' THEN 'Brain' END)
+		
+
+
+WHEN name like '%uter%' THEN 'Uterus'
+WHEN name like '%thyroid%' THEN 'Thyroid'
+WHEN name like '%Sarcoma%' THEN 'Soft Tissue'
+
+
+//
+select * from information_schema.tables where table_schema = 'ferna11i_cbioportal' and table_name like '%prad%' 
+
+select table_name,table_rows from information_schema.tables where TABLE_NAME like 'patientinfo_%'
+
+		
