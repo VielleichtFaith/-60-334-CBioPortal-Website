@@ -6,7 +6,8 @@
 	$conn = new mysqli($hostname,$username,$password,$database);
 	if ($conn->connect_error) die($conn->connect_error);
 
-	$query = "SELECT name FROM keywords";
+	// $query = "SELECT name FROM keywords"; 	//Changed by Johan 
+	$query = "select DISTINCT k.name from study as s INNER JOIN keywords as k on s.name LIKE CONCAT('%',k.name,'%')";
 	$result_array = $conn->query($query);
 	if (!$result_array) die($conn->error);
 

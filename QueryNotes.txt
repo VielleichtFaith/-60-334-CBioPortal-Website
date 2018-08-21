@@ -53,4 +53,9 @@ select * from information_schema.tables where table_schema = 'ferna11i_cbioporta
 
 select table_name,table_rows from information_schema.tables where TABLE_NAME like 'patientinfo_%'
 
+
+select k.name,s.name from study as s INNER JOIN keywords as k 
+on s.name LIKE CONCAT('%',k.name,'%')
+
+select DISTINCT k.name from study as s INNER JOIN keywords as k on s.name LIKE CONCAT('%',k.name,'%')
 		

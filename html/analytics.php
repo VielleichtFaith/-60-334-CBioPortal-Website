@@ -68,7 +68,6 @@
 		
 		//Use the top 10 study id list to get the names of the studies
 		$query = "SELECT name FROM study WHERE id in " . $where_clause;
-		$conn = new mysqli("localhost","root","","ferna11i_cbioportal");
 		$result = $conn->query($query);
 		
 		if(!$result) die("Problem with query");

@@ -238,3 +238,25 @@ h2 {}
 	border-bottom-left-radius : 0px;	
 	border-top-left-radius : 0px;	
 }
+
+/*Query page*/
+
+.banner-sec .search-query{
+	color : white;
+	text-transform : none;
+	text-align : center;
+	margin-bottom : 10px;
+	font-size: 24px;
+	font-weight:  400;
+}
+
+.study-option{
+	text-align : center;
+	margin: 0 auto;
+    width:60% /* value of your choice which suits your alignment */
+}
+
+.study_table{
+	margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */		
+}

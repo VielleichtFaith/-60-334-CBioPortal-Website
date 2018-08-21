@@ -22,19 +22,32 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../js/ie10-viewport-bug-workaround.js"></script>
     <script src="../js/oppear_1.1.2.min.js"></script>  
-
+	
 <script>
 
 //getStudy is called once a study has been selected
-function getStudy(val){
- $.ajax({
-   type:"post",
-   url:"ajax_populate.php",
-   data:'currentstudy='+val,
-   success: function(data){
-	$("#attributes").html(data);
-    }
- });
+function getStudyData(val){ 	 
+	 $("#attribute").val([]);
+	 
+	 $.ajax({
+	   type:"post",
+	   url:"ajax_populate.php",
+	   data:'currentstudy='+val,
+	   success: function(data){
+		$("#attributes").html(data);
+		
+		 $.ajax({					//On initial call to a study display all columns
+		   type: "POST",
+		   url: "drawtable.php",
+		   data: $("form").serialize(), 
+		   success: function(data){
+				$("#tables").html(data);
+		   }
+		 });
+		 
+	   }
+	 });
+	 
 }
 
 
@@ -50,7 +63,7 @@ $(document).ready(function() {
 		$("#tables").html(data);
 	    }
          });
-  	return false;
+		return false;
     });
 });
 
@@ -74,24 +87,41 @@ $(document).ready(function() {
  $conn = new mysqli($hostname,$username,$password,$database);
  if ($conn->connect_error) die($conn->connect_error);
 
+//----- Code Commented by Johan ------------------------------------ 
+// To reduce the number of studies the user would have to navigate through
 #1. get keyword from user's choice of cancer study
- $query = 'select keyword from keywords where name="'.$userinput.'"';
- $result = $conn->query($query);
- if(!$result){die($conn->error);} 
- $key = $result->fetch_assoc()['keyword']; #use this for step 2
+ // $query = 'select keyword from keywords where name="'.$userinput.'"';
+ // $result = $conn->query($query);
+ // if(!$result){die($conn->error);} 
+ // $key = $result->fetch_assoc()['keyword']; #use this for step 2
 
 
 #2. get all studies that match the keyword
- $query = 'select id from study where id like "%'.$key.'%"';
- $result = $conn->query($query);
- if(!$result){die($conn->error);} 
+ // $query = 'select id from study where id like "%'.$key.'%"';
+ // $result = $conn->query($query);
+ // if(!$result){die($conn->error);} 
  
- $length = $result->num_rows;
- $allstudies = array();	 #use this to tell the user what are available
- for ($i=0;$i<$length;$i++){
-	$allstudies[] = $result->fetch_assoc()['id'];
- }
+ // $length = $result->num_rows;
+ // $allstudies = array();	 #use this to tell the user what are available
+ // for ($i=0;$i<$length;$i++){
+	// $allstudies[] = $result->fetch_assoc()['id'];
+ // }
+//-----------------------------------------------------------------------
 
+//--------------------- New code by Johan -------------------------------
+	$query = "SELECT s.id,s.name FROM study AS s INNER JOIN keywords AS k ON s.name LIKE CONCAT('%',k.name,'%')" .
+			 " WHERE k.name = '" . $userinput . "'";
+
+	$result = $conn->query($query);
+	if(!$result){die($conn->error);} 	
+
+	$allstudies = array();
+	$length = $result->num_rows;
+	while($row = $result->fetch_assoc()){
+		$allstudies[] = [ "Name" => $row['name'],
+						  "Id" => $row['id'] ];
+	}	
+//----------------------------------------------------------------------
 #######
 #loading page visuals
 #######
@@ -122,21 +152,33 @@ echo <<<_END
 _END;
 
 echo '<section class="banner-sec" id="home">';
+
+echo '<h2 class="search-query"> You requested the studies for : ' . $userinput . '</h2>';
+echo '<h3 class="search-query"> Number of studies available : ' . $length . '</h3>';
+
 #form1 start
-echo '<form method="post">'; 	
-	echo '<select id="currentinput" name="currentinput" onChange="getStudy(this.value)" required>';
-	echo '<option>Please select a study.</option>';
-	for ($i=0;$i<$length;$i++){
-	echo '<option value="' . $allstudies[$i] . '">' . $allstudies[$i] . '</option>';
- 	}
-echo '</select>';
+echo <<<_END
+
+	<form class="study-option" method="post">
+		<div class="form-group">
+		<select id="currentinput" class="form-control" name="currentinput" 
+				onChange="getStudyData(this.value)" required>
+		<option>Please select a study.</option>';
+_END;
+
+		for ($i=0;$i<$length;$i++){
+		echo '<option value="' . $allstudies[$i]['Id'] . '">' . $allstudies[$i]['Name'] . '</option>';
+		}
+		echo '</select> </div>';
 
 #3. get columns from study
 #form1 continued
-echo '<select id="attributes" name="attributes[]" multiple placeholder="Select Study First">';
+//echo '<div class="form-group mx-sm-3 mb-2">';		//Keeping the inputs on one line
+echo '<div class="form-group">';		//Keeping the inputs on one line
+echo '<select id="attributes" class="form-control" name="attributes[]" multiple placeholder="Select Study First" size="3">';
 echo '<option>Please select columns</option>';
 
-echo '</select><input type="submit" id="submit" class="btn btn-search"/></form>';
+echo '</select></div><input type="submit" id="submit" class="btn btn-success btn-lg"/></form>';
 #form1 end
 #########
 #AJAX TABLE: DRAWTABLE.PHP
